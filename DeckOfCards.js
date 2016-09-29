@@ -1,14 +1,14 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global define */
 
-function Card(number, suit, value) {
+function Card(number, suit, value) { // each Card has a number, suit, and value
     "use strict";
     this.number = number;
     this.suit = suit;
     this.value = value;
 }
 
-function initDeck() {
+function initDeck() { // initialize the deck - 52 cards, 4 suits, A-K and push into a single array -> values also are assigned in this function (except for A because of gameplay calculation stuff)
     "use strict";
     var x, i, j;
 
@@ -31,14 +31,11 @@ function initDeck() {
         }
     }
 
-    //console.log(Deck.length);
-    //console.log(Deck);
-
     return Deck;
 
 }
 
-function deckShuffle(deck) {
+function deckShuffle(deck) { // randomly shuffles the deck
     "use strict";
     var x, temp;
     var length = deck.length - 1;
@@ -54,20 +51,20 @@ function deckShuffle(deck) {
     return deck;
 }
 
-function Player(hand, score) {
+function Player(hand, score) { // player has a hand and score (for blackjack)
     "use strict";
     this.hand = hand;
     this.score = score;
 }
 
-function dealHand(deck, players) {
+function dealHand(deck, players) { // deals out two cards to each player
     "use strict";
     var i, j;
 
     for (i = 0; i < 4; i++) {
         if (i >= players.length) {
             j = i % 2;
-            players[j].hand.push(deck.shift());
+            players[j].hand.push(deck.shift()); // remove the card from the deck so it can't be given to another player
         } else {
             players[i].hand.push(deck.shift());
         }
@@ -76,7 +73,7 @@ function dealHand(deck, players) {
     return players;
 }
 
-function handCheck(hand) {
+function handCheck(hand) { // checks the hand to make sure the correct cards went to the correct players
     "use strict";
     var i;
 
@@ -85,7 +82,7 @@ function handCheck(hand) {
     }
 }
 
-function getPoints(hand, prevScore) {
+function getPoints(hand, prevScore) { // calculates points of a user's hand (blackjack)
     "use strict";
     var num = 21;
     var i;
@@ -104,19 +101,19 @@ function getPoints(hand, prevScore) {
     return prevScore;
 }
 
-var gameDeck = deckShuffle(initDeck());
+var gameDeck = deckShuffle(initDeck()); // create the deck for the game
 
-var dealerHand = new Array(0);
+var dealerHand = new Array(0); // initialize the dealer and player hands
 var playerHand = new Array(0);
 
-var dealer = new Player(dealerHand, 0);
+var dealer = new Player(dealerHand, 0); // create new players with 0 score
 var player = new Player(playerHand, 0);
 
-var players = new Array(0);
+var players = new Array(0); // create an array to contain 2 players
 players.push(dealer);
 players.push(player);
 
-dealHand(gameDeck, players);
+dealHand(gameDeck, players); // deal out the cards
 
 handCheck(dealerHand);
 handCheck(playerHand);
@@ -125,4 +122,4 @@ console.log("Dealer has " + getPoints(dealerHand, dealer.score) + " points.");
 console.log("Player has " + getPoints(playerHand, player.score) + " points.");
 
 
-console.log(gameDeck);
+console.log(gameDeck); // makes sure the corect cards were removed and the order of the remaining cards equal the original gameDeck (before dealing)
