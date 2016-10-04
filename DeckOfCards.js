@@ -1,6 +1,7 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global define */
 
+
 function Card(number, suit, value) { // each Card has a number, suit, and value
     "use strict";
     this.number = number;
@@ -115,7 +116,9 @@ players.push(player);
 
 dealHand(gameDeck, players); // deal out the cards
 
+console.log("Dealer's hand: ");
 handCheck(dealerHand);
+console.log("Player's hand: ");
 handCheck(playerHand);
 
 console.log("Dealer has " + getPoints(dealerHand, dealer.score) + " points.");
